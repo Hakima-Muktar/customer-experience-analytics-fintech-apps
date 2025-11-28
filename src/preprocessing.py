@@ -1,48 +1,17 @@
-"""
-Data Preprocessing Script
-Task 1: Data Preprocessing
 
-This script cleans and preprocesses the scraped reviews data.
-- Handles missing values
-- Normalizes dates
-- Cleans text data
-"""
 
-# Import the sys module to handle system-specific parameters and functions
 import sys
-# Import the os module to handle file paths and operating system functionalities
 import os
-
-# Add the parent directory of the current script to the Python path
-# This allows us to import modules from the parent directory (like config.py if it were there, or siblings)
-# os.path.abspath(__file__) gets the full path of this script
-# os.path.dirname(...) gets the directory containing this script
-# The outer os.path.dirname(...) gets the parent directory of that directory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Import pandas for data manipulation and analysis (DataFrames)
 import pandas as pd
-# Import numpy for numerical operations (though mostly used implicitly by pandas here)
 import numpy as np
-# Import datetime class from datetime module to handle date and time objects
 from datetime import datetime
-# Import re module for regular expression operations (used for text cleaning)
 import re
-# Import DATA_PATHS dictionary from the local config module
 from config import DATA_PATHS
 
-
 class ReviewPreprocessor:
-    """Preprocessor class for review data"""
 
     def __init__(self, input_path=None, output_path=None):
-        """
-        Initialize preprocessor
-
-        Args:
-            input_path (str): Path to raw reviews CSV
-            output_path (str): Path to save processed reviews
-        """
         # Set the input path: use the provided argument, or default to DATA_PATHS['raw_reviews'] from config
         self.input_path = input_path or DATA_PATHS['raw_reviews']
         # Set the output path: use the provided argument, or default to DATA_PATHS['processed_reviews'] from config
@@ -53,8 +22,6 @@ class ReviewPreprocessor:
         self.stats = {}
 
     def load_data(self):
-        """Load raw reviews data"""
-        # Print a message indicating that data loading has started
         print("Loading raw data...")
         try:
             # Read the CSV file at self.input_path into a pandas DataFrame
@@ -77,8 +44,6 @@ class ReviewPreprocessor:
             return False
 
     def check_missing_data(self):
-        """Check for missing data"""
-        # Print a header for this step [1/6]
         print("\n[1/6] Checking for missing data...")
 
         # Calculate the count of missing (null) values for each column
@@ -402,7 +367,6 @@ def main():
         print("\n✗ Preprocessing failed!")
         # Return None to indicate failure
         return None
-
 
 # Standard Python check to see if this file is being run directly (not imported)
 if __name__ == "__main__":

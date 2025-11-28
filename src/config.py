@@ -13,7 +13,7 @@ APP_IDS = {
 BANK_NAMES = {
     'CBE': 'Commercial Bank of Ethiopia',
     'BOA': 'Bank of Abysinia',
-    'DASHEN': 'Dashen Bank'
+    'DASHEN': 'Dashen'
 }
 
 # Scraping Configuration

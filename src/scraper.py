@@ -1,27 +1,14 @@
-"""
-Google Play Store Review Scraper
-Task 1: Data Collection
-
-This script scrapes user reviews from Google Play Store for three Ethiopian banks.
-Target: 400+ reviews per bank (1200 total minimum)
-"""
 
 import sys
 import os
-# Add parent directory to path to allow importing modules from there
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from google_play_scraper import app, Sort, reviews_all, reviews
 import pandas as pd
 from datetime import datetime
 import time
 from tqdm import tqdm
 from config import APP_IDS, BANK_NAMES, SCRAPING_CONFIG, DATA_PATHS
-
-
 class PlayStoreScraper:
-    """Scraper class for Google Play Store reviews"""
-
     def __init__(self):
         # Load configuration variables from the config file
         self.app_ids = APP_IDS
@@ -32,9 +19,6 @@ class PlayStoreScraper:
         self.max_retries = SCRAPING_CONFIG['max_retries']
 
     def get_app_info(self, app_id):
-        """
-        Get basic information about the app (rating, total reviews, etc.)
-        """
         try:
             # Fetch app details from Google Play Store
             result = app(app_id, lang=self.lang, country=self.country)
@@ -51,11 +35,6 @@ class PlayStoreScraper:
             return None
 
     def scrape_reviews(self, app_id, count=400):
-        """
-        Scrape reviews for a specific app.
-        Attempts to fetch 'count' number of reviews, sorted by newest first.
-        Includes a retry mechanism for stability.
-        """
         print(f"\nScraping reviews for {app_id}...")
 
         # Retry loop to handle potential network errors or API issues
@@ -87,10 +66,6 @@ class PlayStoreScraper:
         return []
 
     def process_reviews(self, reviews_data, bank_code):
-        """
-        Process raw review data from the scraper into a clean dictionary format.
-        Extracts only the relevant fields we need for analysis.
-        """
         processed = []
 
         for review in reviews_data:
@@ -111,14 +86,6 @@ class PlayStoreScraper:
         return processed
 
     def scrape_all_banks(self):
-        """
-        Main orchestration method:
-        1. Iterates through all configured banks
-        2. Fetches app metadata
-        3. Scrapes reviews for each bank
-        4. Combines all data into a single DataFrame
-        5. Saves the raw data to CSV
-        """
         all_reviews = []
         app_info_list = []
 
@@ -210,8 +177,6 @@ class PlayStoreScraper:
                     print(f"\nRating: {'⭐' * row['rating']}")
                     print(f"Review: {row['review_text'][:200]}...")
                     print(f"Date: {row['review_date']}")
-
-
 def main():
     """Main execution function"""
 
@@ -226,7 +191,5 @@ def main():
         scraper.display_sample_reviews(df)
 
     return df
-
-
 if __name__ == "__main__":
     reviews_df = main()
