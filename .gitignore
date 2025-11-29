@@ -1,6 +1,5 @@
 # Ignore data files
-/data/processed
-/data/raw
+/data/
 # Python envs
 venv/
 
