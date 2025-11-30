@@ -4,3 +4,6 @@ pip install matplotlib
 pip install seaborn
 pip install google-play-scraper
 pip install python-dotenv
+pip install nltk
+pip install textblob
+pip install scikit-learn
