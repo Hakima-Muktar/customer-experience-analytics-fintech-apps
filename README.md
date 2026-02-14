@@ -34,7 +34,7 @@ We apply NLP and ML techniques to uncover key customer pain points and satisfact
 -  Great UX design
 - Responsiveness
   ###### Dashen Bank
-
+- Slowness in transactions
 
   # ❌ Common Pain Points
   ###### Commercial Bank of Ethiopia
@@ -59,5 +59,5 @@ We apply NLP and ML techniques to uncover key customer pain points and satisfact
 
 ###### Dashen:
   - Positive: 261 (66.2%)
-  -Negative: 133 (33.8%)
-  -Satisfaction Score: 66.2%
+  - Negative: 133 (33.8%)
+  - Satisfaction Score: 66.2%
