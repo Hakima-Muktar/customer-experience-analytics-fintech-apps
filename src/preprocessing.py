@@ -1,4 +1,13 @@
+"""
+Data Preprocessing Script
+Task 1: Data Preprocessing
 
+This script cleans and preprocesses the scraped reviews data.
+- Removes duplicates
+- Handles missing values
+- Normalizes dates
+- Cleans text data
+"""
 
 # Import the sys module to handle system-specific parameters and functions
 import sys
@@ -91,7 +100,7 @@ class ReviewPreprocessor:
         self.stats['missing_before'] = missing.to_dict()
 
         # Define a list of columns that are absolutely required for our analysis
-        critical_cols = ['review_text', 'rating', 'app_name']
+        critical_cols = ['review_text', 'rating', 'bank_name']
         # Calculate missing values just for these critical columns
         missing_critical = self.df[critical_cols].isnull().sum()
 
@@ -113,7 +122,7 @@ class ReviewPreprocessor:
         # Remove duplicate rows based on specific columns: 'review_text', 'rating', and 'bank_code'
         # If multiple rows have identical values in these columns, keep only the first one ('keep="first"')
         self.df = self.df.drop_duplicates(
-            subset=['review_text', 'rating', 'app_code'],
+            subset=['review_text', 'rating', 'bank_code'],
             keep='first'
         )
 
@@ -133,7 +142,7 @@ class ReviewPreprocessor:
         print("\n[3/8] Handling missing values...")
 
         # Define the critical columns again
-        critical_cols = ['review_text', 'rating', 'app_name']
+        critical_cols = ['review_text', 'rating', 'bank_name']
         # Store the count before dropping rows
         before_count = len(self.df)
         # Drop any rows that have missing values (NaN) in the critical columns
@@ -183,8 +192,19 @@ class ReviewPreprocessor:
             print(f"WARNING: Error normalizing dates: {str(e)}")
 
     def is_english(self, text):
+        """
+        Check if text is primarily English using character-based heuristic.
+        Returns True if text contains mostly ASCII letters.
+        
+        Args:
+            text (str): Text to check
+            
+        Returns:
+            bool: True if text appears to be English
+        """
         if not text or len(text) < 3:
             return False
+        
         # Count ASCII letters (a-z, A-Z)
         ascii_letters = sum(1 for c in text if c.isascii() and c.isalpha())
         # Count all alphabetic characters (including non-ASCII like Amharic)
@@ -303,8 +323,8 @@ class ReviewPreprocessor:
             'review_date',
             'review_year',
             'review_month',
-            'app_code',
-            'app_name',
+            'bank_code',
+            'bank_name',
             'user_name',
             'thumbs_up',
             'text_length',
@@ -318,7 +338,7 @@ class ReviewPreprocessor:
         self.df = self.df[output_columns]
 
         # Sort the DataFrame first by 'bank_code' (ascending) and then by 'review_date' (descending/newest first)
-        self.df = self.df.sort_values(['app_code', 'review_date'], ascending=[True, False])
+        self.df = self.df.sort_values(['bank_code', 'review_date'], ascending=[True, False])
 
         # Reset the index of the DataFrame so it starts from 0 to N-1 cleanly
         # drop=True prevents the old index from being added as a new column
@@ -392,12 +412,12 @@ class ReviewPreprocessor:
 
         # Print statistics about the reviews per bank
         if self.df is not None:
-            print("\nReviews per app:")
+            print("\nReviews per bank:")
             # Count occurrences of each unique value in 'bank_name'
-            app_counts = self.df['app_name'].value_counts()
+            bank_counts = self.df['bank_name'].value_counts()
             # Loop through the results and print them
-            for app, count in app_counts.items():
-                print(f"  {app}: {count}")
+            for bank, count in bank_counts.items():
+                print(f"  {bank}: {count}")
 
             # Print statistics about rating distribution
             print("\nRating distribution:")

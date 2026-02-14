@@ -1,5 +1,17 @@
+"""
+Thematic Analysis Module
+Task 2: Thematic Analysis
 
+This module extracts themes from reviews using:
+1. TF-IDF keyword extraction - Finds important words in each review
+2. Rule-based theme mapping - Maps keywords to predefined themes
+3. Optional: spaCy for advanced NLP (lemmatization, POS tagging)
 
+Why thematic analysis?
+- Sentiment tells us HOW users feel (positive/negative)
+- Themes tell us WHAT users are talking about (login, crashes, UI)
+- Combined: We know users are NEGATIVE about LOGIN ISSUES
+"""
 
 import sys
 import os
@@ -19,6 +31,14 @@ from config import THEME_KEYWORDS, THEME_CONFIG, DATA_PATHS
 
 
 class ThemeAnalyzer:
+    """
+    Theme Analyzer class for extracting and categorizing review themes.
+    
+    Purpose:
+    - Extract meaningful keywords from reviews using TF-IDF
+    - Map keywords to predefined business-relevant themes
+    - Identify what aspects of the app users discuss most
+    """
 
     def __init__(self):
         """
@@ -270,22 +290,22 @@ class ThemeAnalyzer:
         # Reviews with no theme
         no_theme = len(df[df['primary_theme'] == 'Other'])
         print(f"\n  Reviews with no identified theme: {no_theme} ({(no_theme/len(df))*100:.1f}%)")
-
-        # By app
-        if 'app_name' in df.columns:
-            print("\nTop Theme by App:")
-            for app in df['app_name'].unique():
-                app_df = df[df['app_name'] == app]
-                app_themes = []
-                for themes in app_df['themes']:
-                    app_themes.extend(themes)
+        
+        # By bank
+        if 'bank_name' in df.columns:
+            print("\nTop Theme by Bank:")
+            for bank in df['bank_name'].unique():
+                bank_df = df[df['bank_name'] == bank]
+                bank_themes = []
+                for themes in bank_df['themes']:
+                    bank_themes.extend(themes)
                 
-                if app_themes:
-                    top_theme = Counter(app_themes).most_common(1)[0]
-                    print(f"  {app}: {top_theme[0]} ({top_theme[1]} mentions)")
+                if bank_themes:
+                    top_theme = Counter(bank_themes).most_common(1)[0]
+                    print(f"  {bank}: {top_theme[0]} ({top_theme[1]} mentions)")
                 else:
-                    print(f"  {app}: No themes identified")
-
+                    print(f"  {bank}: No themes identified")
+    
     def get_theme_sentiment_correlation(self, df):
         """
         Analyze correlation between themes and sentiment.

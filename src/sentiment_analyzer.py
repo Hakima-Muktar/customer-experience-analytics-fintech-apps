@@ -1,3 +1,15 @@
+"""
+Sentiment Analysis Module
+Task 2: Sentiment Analysis
+
+This module provides sentiment analysis using two approaches:
+1. VADER (Valence Aware Dictionary and sEntiment Reasoner) - Rule-based
+2. DistilBERT - Transformer-based deep learning model
+
+Why two methods?
+- VADER: Fast, lightweight, good for social media text, no GPU needed
+- DistilBERT: More accurate, understands context, but slower and heavier
+"""
 
 import sys
 import os
@@ -13,6 +25,14 @@ from config import SENTIMENT_CONFIG, DATA_PATHS
 
 
 class SentimentAnalyzer:
+    """
+    Sentiment Analyzer class supporting VADER and DistilBERT methods.
+    
+    Purpose:
+    - Classify reviews as Positive, Negative, or Neutral
+    - Provide confidence scores for each classification
+    - Enable comparison between rule-based and ML approaches
+    """
 
     def __init__(self, method='vader'):
         """
@@ -34,20 +54,41 @@ class SentimentAnalyzer:
             raise ValueError(f"Unknown method: {method}. Use 'vader' or 'distilbert'")
     
     def _init_vader(self):
-    
+        """
+        Initialize VADER sentiment analyzer.
+        
+        What is VADER?
+        - Rule-based sentiment analysis tool
+        - Specifically tuned for social media and short texts
+        - Uses a lexicon (dictionary) of words with sentiment scores
+        - Handles emojis, slang, and punctuation (e.g., "GREAT!!!" is more positive than "great")
+        """
         print("Initializing VADER sentiment analyzer...")
         self.model = SentimentIntensityAnalyzer()
         print("VADER ready!")
+    
     def _init_distilbert(self):
+        """
+        Initialize DistilBERT sentiment analyzer.
+        
+        What is DistilBERT?
+        - A smaller, faster version of BERT (Bidirectional Encoder Representations from Transformers)
+        - Pre-trained on millions of text samples
+        - Fine-tuned on SST-2 (Stanford Sentiment Treebank) for sentiment classification
+        - Understands context: "not good" = negative, even though "good" is positive
+        """
         print("Initializing DistilBERT sentiment analyzer...")
         print("(This may take a moment to download the model on first run)")
+        
         model_name = SENTIMENT_CONFIG['model']
+        
         # Check if GPU is available
         device = 0 if torch.cuda.is_available() else -1
         if device == 0:
             print("Using GPU for inference")
         else:
             print("Using CPU for inference")
+        
         # Load the sentiment analysis pipeline
         self.model = pipeline(
             "sentiment-analysis",
@@ -60,9 +101,18 @@ class SentimentAnalyzer:
         print("DistilBERT ready!")
     
     def analyze_text(self, text):
-    
+        """
+        Analyze sentiment of a single text.
+        
+        Args:
+            text (str): The text to analyze
+            
+        Returns:
+            dict: Contains 'label' (POSITIVE/NEGATIVE/NEUTRAL) and 'score' (confidence 0-1)
+        """
         if not text or pd.isna(text) or len(str(text).strip()) == 0:
             return {'label': 'NEUTRAL', 'score': 0.0}
+        
         text = str(text).strip()
         
         if self.method == 'vader':
@@ -103,6 +153,15 @@ class SentimentAnalyzer:
         }
     
     def _analyze_distilbert(self, text):
+        """
+        Analyze sentiment using DistilBERT.
+        
+        How DistilBERT works:
+        - Tokenizes text into subwords
+        - Passes through transformer layers to understand context
+        - Outputs probability distribution over POSITIVE/NEGATIVE
+        - Returns the label with highest probability
+        """
         try:
             # Truncate very long texts to avoid memory issues
             if len(text) > 2000:
@@ -170,16 +229,16 @@ class SentimentAnalyzer:
             pct = (count / total) * 100
             print(f"  {label}: {count} ({pct:.1f}%)")
         
-        # By app
-        if 'app_name' in df.columns:
-            print(f"\nSentiment by App:")
-            for app in df['app_name'].unique():
-                app_df = df[df['app_name'] == app]
-                pos_count = len(app_df[app_df[label_column] == 'POSITIVE'])
-                neg_count = len(app_df[app_df[label_column] == 'NEGATIVE'])
-                pos_pct = (pos_count / len(app_df)) * 100
-                neg_pct = (neg_count / len(app_df)) * 100
-                print(f"  {app}:")
+        # By bank
+        if 'bank_name' in df.columns:
+            print(f"\nSentiment by Bank:")
+            for bank in df['bank_name'].unique():
+                bank_df = df[df['bank_name'] == bank]
+                pos_count = len(bank_df[bank_df[label_column] == 'POSITIVE'])
+                neg_count = len(bank_df[bank_df[label_column] == 'NEGATIVE'])
+                pos_pct = (pos_count / len(bank_df)) * 100
+                neg_pct = (neg_count / len(bank_df)) * 100
+                print(f"  {bank}:")
                 print(f"    Positive: {pos_pct:.1f}% | Negative: {neg_pct:.1f}%")
 
 

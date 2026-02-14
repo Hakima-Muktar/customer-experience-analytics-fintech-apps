@@ -1,63 +1,47 @@
-### Ethiopian Banking App Reviews – Sentiment & Thematic Analysis
+# Project Title
+A short description of what this project does.
 
-#### Project Overview
-This project analyzes user reviews from the Google Play Store for three major Ethiopian banking apps:
 
-- Commercial Bank of Ethiopia (CBE)
-- Bank of Abyssinia (BOA)
-- Dashen Bank
+## Business Problem
+Explain the real-world problem this solves.
 
-#### Top 5 Pain Points
 
-- technical Issues
-- Transaction performance
-- UX Problem
-- Customer Supports
-- Feature request
-  ![alt text](image-1.png)
+## Solution Overview
+High-level description of your approach.
 
-### Total reviews collected: 10282
-  - Commercial Bank of Ethiopia: 8520
-  - Bank of Abysinia: 1258
-  - Dashen: 504
 
-#### Reviews Distribution by app
-- After Cleaning missing and duplicated values
-![alt text](image.png)
+## Key Results
+   - Metric 1: XX% improvement
+   - Metric 2: $XX saved
+   - Metric 3: X hours reduced
 
-# Positive 
-###### Commercial Bank of Ethiopia
--  Smooth interface
-- Fast navigation
-###### Bank of Abyssinia
--  Great UX design
-- Responsiveness
-  ###### Dashen Bank
-- Slowness in transactions
-- 
-  # ❌ Common Pain Points
-  ###### Commercial Bank of Ethiopia
-- lack of Transaction performance , User interface and experience
-###### Bank of Abyssinia
-- lack of Transaction performance and technical Issues
-###### Dashen Bank
-  - lack of Transaction performance , User interface and experience
-- 
-  ![alt text](image-1.png)
 
-  ### Comparative Analysis Between Banks
+## Quick Start
+```bash
+   git clone https://github.com/username/project
+ cd project
+   pip install -r requirements.txt
+   python src/main.py
+```
 
-  ###### Bank of Abysinia:
-  - Positive: 384 (38.1%)
-  - Negative: 625 (61.9%)
-  - Satisfaction Score: 38.1%
 
-###### Commercial Bank of Ethiopia:
-  - Positive: 3517 (59.1%)
-  - Negative: 2433 (40.9%)
-  - Satisfaction Score: 59.1%
+## Project Structure
+[Directory tree]
 
-###### Dashen:
-  - Positive: 261 (66.2%)
-  - Negative: 133 (33.8%)
-  - Satisfaction Score: 66.2%
+
+## Demo
+[GIF or link to dashboard]
+
+
+## Technical Details
+   - Data: Source and preprocessing
+   - Model: Algorithm and hyperparameters
+   - Evaluation: Metrics and validation
+
+
+## Future Improvements
+What would you do with more time?
+
+
+## Author
+Your name, LinkedIn, contact
